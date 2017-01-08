@@ -5,7 +5,7 @@
 // modify this patch to include four sensor inputs. Each sensor affects two motors (a pair). 
 // the input from the sensor should affect rate and intensity (pwm).
 // obviously, remove axtraneous stuff that doesn't apply to the stellar remnants project
-
+//
 
 
 // Define mode switch (installation vs performance modes)
