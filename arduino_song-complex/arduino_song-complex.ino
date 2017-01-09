@@ -47,7 +47,7 @@ void setup()
   pinMode(motor1,OUTPUT);
   pinMode(motor2,OUTPUT);
   pinMode(motor3,OUTPUT);
-  Serial.begin(9600);
+  Serial.begin(57600);
 }
 
 void loop() {
@@ -61,12 +61,16 @@ void song() {
 
   if (counter % 3 == 0) {
     t = random(2500, 5000);
+    Serial.println(t);
+    
   } else {
     t = 3850;
+    Serial.println("normal time");
   }
   
   if (counter % 5 == 0) {
     // every 5th time, do a randomized song
+    Serial.println("weird song");
     songRandom(motor0, motor0State);
     songRandom(motor1, motor1State);
     songRandom(motor2, motor2State);
@@ -99,6 +103,7 @@ void song() {
     
   } else {
     // otherwise, to the normal song
+    Serial.println("normal song");
     //Serial.println("note 1");
     digitalWrite(motor0,on);
     digitalWrite(motor1,off);

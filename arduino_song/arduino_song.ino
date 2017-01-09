@@ -12,10 +12,10 @@ const int motor2 =  4; //7
 const int motor3 =  5; //10
 
 // Define motor names (*$4)
-char plate2 = 'plate2';
-char plate3 = 'plate3';
-char plate7 = 'plate7';
-char plate10 = 'plate10';
+//char plate2 = 'plate2';
+//char plate3 = 'plate3';
+//char plate7 = 'plate7';
+//char plate10 = 'plate10';
 
 // Define motor states (*4)
 int motor0State =  pwm;
@@ -67,7 +67,7 @@ void setup()
   pinMode(motor1,OUTPUT);
   pinMode(motor2,OUTPUT);
   pinMode(motor3,OUTPUT);
-  Serial.begin(9600);
+  Serial.begin(57600);
 }
 
 void loop() {
