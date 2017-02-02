@@ -4,7 +4,7 @@
 // Set ideal pwm level
 //int off = LOW;
 //int on = HIGH;
-int pwm = 90;
+int pwm = 120;
 int off = 0;
 int on = 255;
 
@@ -22,11 +22,7 @@ int motor3State =  on;
 
 // Set the active interval (same for all for now?)
 float t =  3850;
-int counter = 0;
-
-///////////////////////////////////////
-//////// installation settings ////////
-///////////////////////////////////////
+int counter = 1;
 
 // counter variables (0)
 int counternote =  1;
@@ -38,10 +34,6 @@ int unit0 = 5; // just one for now
 //int unit2 = 3;
 //int unit3 = 7;
 
-
-// installation time multiplier
-int installationgp = 30;  // grand pause (*trest)
-int installationrest = 14; // pause (*trest)
 
 void setup()
 {
@@ -62,7 +54,7 @@ void loop() {
 // custom functions
 void song() {
 
-  if (counter % 3 == 0) {
+  if (counter % 2 == 0) {
     t = random(2500, 5000);
     Serial.println(t);
     
@@ -94,6 +86,38 @@ void song() {
     songRandom(motor2, motor2State);
     delay(t);
     
+  } else if (counter % 7 == 0 || counter % 8 == 0) {
+    // otherwise, do reverse song
+    Serial.println("reverse song");
+    
+    //Serial.println("note 4");
+    digitalWrite(motor0,off);
+    digitalWrite(motor1,on);
+    digitalWrite(motor2,on);
+    digitalWrite(motor3,off);
+    delay(t);  
+
+     //Serial.println("note 3");
+    digitalWrite(motor0,off);
+    digitalWrite(motor1,on);
+    digitalWrite(motor2,off);
+    digitalWrite(motor3,on);
+    delay(t);
+
+    //Serial.println("note 2");
+    digitalWrite(motor0,on);
+    digitalWrite(motor1,off);
+    digitalWrite(motor2,off);
+    digitalWrite(motor3,on);
+    delay(t);
+
+    //Serial.println("note 1");
+    digitalWrite(motor0,on);
+    digitalWrite(motor1,off);
+    digitalWrite(motor2,on);
+    digitalWrite(motor3,off);
+    delay(t);
+       
   } else {
     // otherwise, to the normal song
     Serial.println("normal song");

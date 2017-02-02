@@ -27,6 +27,7 @@ float proxDmapped = 0;
 // Set ideal pwm level
 int off = 0;
 int pwm = 255;
+int on = 120;
 
 // Define motors pins (*8)
 const int motor0 =  2; //2
@@ -60,6 +61,8 @@ float tBrest = 200;
 float tCrest = 200;
 float tDrest = 200;
 
+float tRandom = 0;
+
 // Instatiate metro object  (*8)
 Metro metro0 =  Metro(tA); 
 Metro metro1 =  Metro(tA); 
@@ -77,7 +80,14 @@ int unitA = 5;
 int unitB = 5;
 int unitC = 5; 
 int unitD = 5;
-
+int counter1 = 0;
+int counter2 = 0;
+int counter3 = 0;
+int counter4 = 0;
+int counter5 = 0;
+int counter6 = 0;
+int counter7 = 0;
+int counter8 = 0;
 
 
 void setup()
@@ -91,24 +101,24 @@ void setup()
   pinMode(motor5,OUTPUT);
   pinMode(motor6,OUTPUT);
   pinMode(motor7,OUTPUT);
-  //Serial.begin(9600);
+  Serial.begin(9600);
 }
 
 void loop() {
 
-  motorcontrol(metro0, motor0, motor0State, tA, tArest, unitA, proxApin, proxAvalue, proxAmapped);
-  motorcontrol(metro1, motor1, motor1State, tA, tArest, unitA, proxApin, proxAvalue, proxAmapped);
-  motorcontrol(metro2, motor2, motor2State, tB, tBrest, unitB, proxBpin, proxBvalue, proxBmapped);
-  motorcontrol(metro3, motor3, motor3State, tB, tBrest, unitB, proxBpin, proxBvalue, proxBmapped);
-  motorcontrol(metro4, motor4, motor4State, tC, tCrest, unitC, proxCpin, proxCvalue, proxCmapped);
-  motorcontrol(metro5, motor5, motor5State, tC, tCrest, unitC, proxCpin, proxCvalue, proxCmapped);
-  motorcontrol(metro6, motor6, motor6State, tD, tDrest, unitD, proxDpin, proxDvalue, proxDmapped);
-  motorcontrol(metro7, motor7, motor7State, tD, tDrest, unitD, proxDpin, proxDvalue, proxDmapped);
+  motorcontrol(metro0, motor0, motor0State, tA, tArest, unitA, proxApin, proxAvalue, proxAmapped, counter1);
+  motorcontrol(metro1, motor1, motor1State, tA, tArest, unitA, proxApin, proxAvalue, proxAmapped, counter2);
+  motorcontrol(metro2, motor2, motor2State, tB, tBrest, unitB, proxBpin, proxBvalue, proxBmapped, counter3);
+  motorcontrol(metro3, motor3, motor3State, tB, tBrest, unitB, proxBpin, proxBvalue, proxBmapped, counter4);
+  motorcontrol(metro4, motor4, motor4State, tC, tCrest, unitC, proxCpin, proxCvalue, proxCmapped, counter5);
+  motorcontrol(metro5, motor5, motor5State, tC, tCrest, unitC, proxCpin, proxCvalue, proxCmapped, counter6);
+  motorcontrol(metro6, motor6, motor6State, tD, tDrest, unitD, proxDpin, proxDvalue, proxDmapped, counter7);
+  motorcontrol(metro7, motor7, motor7State, tD, tDrest, unitD, proxDpin, proxDvalue, proxDmapped, counter8);
 
 }
 
 
-void motorcontrol(Metro& metro, int motor, int &motorState, float t, float trest, int unit, int sensorPin, unsigned long sensorValue, float sensorMapped) {
+void motorcontrol(Metro& metro, int motor, int &motorState, float t, float trest, int unit, int sensorPin, unsigned long sensorValue, float sensorMapped, int &counter) {
   if (metro.check() == 1) { // check if the metro has passed its interval
 
       sensorValue = analogRead(sensorPin);
@@ -128,10 +138,16 @@ void motorcontrol(Metro& metro, int motor, int &motorState, float t, float trest
           }
           analogWrite(motor,motorState);        
       } else {
-        motorState=off;
+        if (counter % 17 == 0) {
+          tRandom = random(500, 1500);
+          motorState=on;
+          metro.interval(tRandom);       
+        } else {
+          motorState=off;
+        }
         analogWrite(motor,motorState);
       }
-
+    counter = counter+1;
   } // end metro check
 
 
@@ -154,7 +170,7 @@ int sensorMakeFasterT(float t, unsigned long sensorValue, float sensorMapped) {
 }
 
 int sensorIntensify(unsigned long sensorValue, float sensorMapped) {
-  sensorMapped = mapf(sensorValue, sensorThreshold, 550 , 100, 255);
+  sensorMapped = mapf(sensorValue, sensorThreshold, 550, 100, 255);
   pwm = sensorMapped;
   return pwm;
 }
