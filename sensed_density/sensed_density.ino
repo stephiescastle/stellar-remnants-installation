@@ -1,9 +1,10 @@
 #include <Metro.h> // Include Metro library
 
-
+// next:
+// make it pick a random time each time so it's not steady. just diff by about 25 ms or something? rand?
 
 // when motors should turn on once something is sensed
-float sensorThreshold = 100; 
+float sensorThreshold = 150; //100
 
 // Define knobs (left to right)
 const int proxApin = A0;    
@@ -25,7 +26,7 @@ float proxDmapped = 0;
 
 // Set ideal pwm level
 int off = 0;
-int pwm = 20;
+int pwm = 255;
 
 // Define motors pins (*8)
 const int motor0 =  2; //2
@@ -48,16 +49,16 @@ int motor6State =  pwm;
 int motor7State =  pwm;
 
 // Set the active interval (same for all for now?)
-float tA =  150;
-float tB =  250;
-float tC =  300;
-float tD =  180;
+float tA =  450;
+float tB =  450;
+float tC =  400;
+float tD =  480;
 
 // Set the rest interval (same for all for now?)
-float tArest = 500;
-float tBrest = 500;
-float tCrest = 500;
-float tDrest = 500;
+float tArest = 200;
+float tBrest = 200;
+float tCrest = 200;
+float tDrest = 200;
 
 // Instatiate metro object  (*8)
 Metro metro0 =  Metro(tA); 
@@ -142,18 +143,18 @@ void motorcontrol(Metro& metro, int motor, int &motorState, float t, float trest
 
 
 int sensorMakeFasterTrest(float trest, unsigned long sensorValue, float sensorMapped) {
-  sensorMapped = mapf(sensorValue, 0, 550, 1, 10);
+  sensorMapped = mapf(sensorValue, sensorThreshold, 550, 1, 5); //10
   trest = trest/sensorMapped; // shorten rest between notes
   return trest;
 }
 int sensorMakeFasterT(float t, unsigned long sensorValue, float sensorMapped) {
-  sensorMapped = mapf(sensorValue, 100, 550, 1, 5);
+  sensorMapped = mapf(sensorValue, sensorThreshold, 550, 1, 3); //5
   t = t/sensorMapped; // shorten length of note
   return t;
 }
 
 int sensorIntensify(unsigned long sensorValue, float sensorMapped) {
-  sensorMapped = mapf(sensorValue, 0, 550 , 0, 100);
+  sensorMapped = mapf(sensorValue, sensorThreshold, 550 , 100, 255);
   pwm = sensorMapped;
   return pwm;
 }

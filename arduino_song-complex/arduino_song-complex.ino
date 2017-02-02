@@ -2,8 +2,11 @@
 //#include <math.h> // for logarithmic scaling
 
 // Set ideal pwm level
-int off = LOW;
-int on = HIGH;
+//int off = LOW;
+//int on = HIGH;
+int pwm = 90;
+int off = 0;
+int on = 255;
 
 // Define motors pins (*4)
 const int motor0 =  2; //2
@@ -72,33 +75,23 @@ void song() {
     // every 5th time, do a randomized song
     Serial.println("weird song");
     songRandom(motor0, motor0State);
-    songRandom(motor1, motor1State);
     songRandom(motor2, motor2State);
-    songRandom(motor3, motor3State);
     delay(t);
     
+    //digitalWrite(motor2,off);
     songRandom(motor0, motor0State);
-    songRandom(motor1, motor1State);
-    songRandom(motor2, motor2State);
     songRandom(motor3, motor3State);
     delay(t);
-    
-    songRandom(motor0, motor0State);
+
+    digitalWrite(motor0,off);
     songRandom(motor1, motor1State);
-    songRandom(motor2, motor2State);
     songRandom(motor3, motor3State);
     delay(t);
-    
-    songRandom(motor0, motor0State);
+
+    digitalWrite(motor0,off);
+    digitalWrite(motor3,off);
     songRandom(motor1, motor1State);
     songRandom(motor2, motor2State);
-    songRandom(motor3, motor3State);
-    delay(t);
-    
-    songRandom(motor0, motor0State);
-    songRandom(motor1, motor1State);
-    songRandom(motor2, motor2State);
-    songRandom(motor3, motor3State);
     delay(t);
     
   } else {
@@ -140,7 +133,7 @@ void songRandom(int motor, int &motorState) {
 
   int randomize = random(0,2);
   if (randomize == 0) {
-    motorState=off;
+    motorState=pwm;
   } else {
     motorState=on;    
   } 
