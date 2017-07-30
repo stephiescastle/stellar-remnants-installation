@@ -4,7 +4,7 @@
 // make it pick a random time each time so it's not steady. just diff by about 25 ms or something? rand?
 
 // when motors should turn on once something is sensed
-float sensorThreshold = 150; //100
+float sensorThreshold = 140; //100
 
 // Define knobs (left to right)
 const int proxApin = A0;    
